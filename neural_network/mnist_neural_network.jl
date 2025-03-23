@@ -2,8 +2,8 @@ using MLDatasets: MNIST
 using Flux
 using Statistics
 
-nr_of_training_data = 60000     # 0 <= 60 000
-nr_of_testing_data = 10000      # 0 <= 10 000
+nr_of_training_data = 60000     # <= 60 000
+nr_of_testing_data = 10000      # <= 10 000
 epochs = 12
 batches = 256
 
