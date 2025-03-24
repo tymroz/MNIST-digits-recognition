@@ -57,12 +57,14 @@ trainSet = MNIST(;Tx=Float32, split=:train)
 testSet = MNIST(;Tx=Float32, split=:test)
 
 x_train = trainSet.features[:, :, 1:nr_of_training_data]
+y_train = trainSet.targets[1:nr_of_training_data]
 x_train = reshape(x_train, 28, 28, 1, nr_of_training_data)
-y_train = Flux.onehotbatch(trainSet.targets[1:nr_of_training_data], 0:9)
+y_train = Flux.onehotbatch(y_train, 0:9)
 
 x_test = testSet.features[:, :, 1:nr_of_testing_data]
+y_test = testSet.targets[1:nr_of_testing_data]
 x_test = reshape(x_test, 28, 28, 1, nr_of_testing_data)
-y_test = Flux.onehotbatch(testSet.targets[1:nr_of_testing_data], 0:9)
+y_test = Flux.onehotbatch(y_test, 0:9)
 
 model(x_train)
 
