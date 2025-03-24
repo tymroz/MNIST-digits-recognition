@@ -7,7 +7,7 @@ nr_of_testing_data = 10000      # <= 10 000
 
 nr_of_trees = 100
 part_samp = 0.8
-max_dep = 10
+max_dep = 20
 min_samp_leaf = 1
 
 function accuracy_all(predictions, labels)
