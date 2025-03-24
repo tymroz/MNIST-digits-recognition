@@ -51,10 +51,10 @@ rf_model = RandomForestClassifier(
 y_pred = predict(rf_model, x_test)
 
 test_accuracy = accuracy_all(y_pred, y_test)
-println("\nDokładność (Accuracy) na zbiorze testowym: $(test_accuracy)")
+println("\nAccuracy: $(test_accuracy)")
 
-println("\nRecall and Precision for each class:")
+println("\nMetrics for each class:")
 for class_index in 0:9
     recall, precision, specifity, accuracy, f1 = metrics_by_class(y_pred, y_test, class_index)
-    println("Klasa $(class_index): Recall = $(recall), Precision = $(precision), Specifity = $(specifity), Accuracy = $(accuracy), F1 = $(f1)")
+    println("Class $(class_index): Recall = $(recall), Precision = $(precision), Specifity = $(specifity), Accuracy = $(accuracy), F1 = $(f1)")
 end
