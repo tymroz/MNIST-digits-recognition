@@ -21,8 +21,8 @@ Pkg.add(["Flux", "MLDatasets", "Statistics"])
 1. Clone the repository or download the `mnist_neural_network.jl` file.
 2. Open the file in a Julia environment.
 3. Run the script to train the model and evaluate its performance:
-    ```
-    julia "mnist_neural_network.jl"
+    ```julia
+    julia mnist_neural_network.jl
     ```
 4. View the accuracy and metrics for each class in the output.
 
@@ -59,7 +59,7 @@ Pkg.add(["DecisionTree", "MLDatasets", "Statistics"])
 1. Clone the repository or download the `mnist_random_forrest.jl` file.
 2. Open the file in a Julia environment.
 3. Run the script to train the model and evaluate its performance:
-    ```
+    ```julia
     julia mnist_random_forrest.jl
     ```
 4. View the accuracy and metrics for each class in the output.
