@@ -1,6 +1,7 @@
 using MLDatasets: MNIST
 using DecisionTree
 using Statistics
+using Plots
 
 nr_of_training_data = 60000     # <= 60 000
 nr_of_testing_data = 10000      # <= 10 000
@@ -10,8 +11,40 @@ part_samp = 0.8
 max_dep = 20
 min_samp_leaf = 1
 
-function accuracy_all(predictions, labels)
-    return mean(predictions .== labels)
+function print_confusion_matrix(predictions, labels)
+    num_classes = 10
+    confusion_matrix = zeros(Int, num_classes, num_classes)
+    
+    for i in 1:length(labels)
+        true_label = labels[i] + 1
+        pred_label = predictions[i] + 1
+        confusion_matrix[true_label, pred_label] += 1
+    end
+
+    plt = heatmap(
+        0:9, 0:9, confusion_matrix, 
+        xlabel="Predicted", ylabel="True", 
+        title="Confusion Matrix",
+        color=:thermal,
+        aspect_ratio=:equal,
+        xticks=0:1:9,
+        yticks=0:1:9
+    )
+    
+    for i in 0:9, j in 0:9
+        annotate!(j, i, text(string(confusion_matrix[i+1,j+1]), 8, :white))
+    end
+    
+    savefig(plt, "confusion_matrix_rf.png")
+    
+    diagonal_sum = sum(confusion_matrix[i, i] for i in 1:num_classes)
+    total_sum = sum(confusion_matrix)
+    acc = round(diagonal_sum / total_sum * 100, digits=2)
+    
+    println("\nCorrectly classified: $(diagonal_sum) out of $(total_sum) ($(acc)%)")
+    println("\nAccuracy: $(acc)%")
+    
+    #return confusion_matrix
 end
 
 function metrics_by_class(predictions, labels, class_index)
@@ -22,10 +55,11 @@ function metrics_by_class(predictions, labels, class_index)
 
     recall = tp / (tp + fn)
     precision = tp / (tp + fp)
-    specifity = tn / (tn + fp)
+    specificity = tn / (tn + fp)
     accuracy = (tn + tp) / (tn + tp + fn + fp)
     f1 = 2 / ((1/recall) + (1/precision))
-    return recall, precision, specifity, accuracy, f1
+
+    return recall, precision, specificity, accuracy, f1
 end
 
 trainSet = MNIST(;Tx=Float32, split=:train)
@@ -50,8 +84,7 @@ rf_model = RandomForestClassifier(
 
 y_pred = predict(rf_model, x_test)
 
-test_accuracy = accuracy_all(y_pred, y_test)
-println("\nAccuracy: $(test_accuracy)")
+print_confusion_matrix(y_pred, y_test)
 
 println("\nMetrics for each class:")
 for class_index in 0:9
